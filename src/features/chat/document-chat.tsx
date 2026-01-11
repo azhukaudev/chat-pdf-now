@@ -24,6 +24,8 @@ import { Response } from '@/components/ai-elements/response';
 import { api } from '@/convex/_generated/api';
 import { Doc } from '@/convex/_generated/dataModel';
 
+import { ChatWelcome } from './chat-welcome';
+
 export interface DocumentChatProps {
   document: Doc<'documents'>;
 }
@@ -54,17 +56,24 @@ export default function DocumentChat(props: DocumentChatProps) {
     setPrompt('');
   }
 
+  const uiMessages = toUIMessages(messages ?? []);
+  const hasMessages = uiMessages.length > 0;
+
   return (
-    <div className="flex h-full flex-col divide-y bg-white">
+    <div className="flex h-full flex-col divide-y bg-white dark:divide-stone-800 dark:bg-stone-900">
       <Conversation>
         <ConversationContent>
-          {toUIMessages(messages ?? []).map((message) => (
-            <Message key={message.id} from={message.role}>
-              <MessageContent>
-                <Response>{message.text}</Response>
-              </MessageContent>
-            </Message>
-          ))}
+          {hasMessages ? (
+            uiMessages.map((message) => (
+              <Message key={message.id} from={message.role}>
+                <MessageContent>
+                  <Response>{message.text}</Response>
+                </MessageContent>
+              </Message>
+            ))
+          ) : (
+            <ChatWelcome documentName={props.document.name} />
+          )}
         </ConversationContent>
         <ConversationScrollButton />
       </Conversation>
