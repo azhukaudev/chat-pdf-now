@@ -25,18 +25,21 @@ export default function DocumentUploadButton(props: DocumentUploadButtonProps) {
     onUploadError: props.onUploadError,
   });
 
-  const handleUpload = useCallback(function handleUpload() {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.pdf';
-    fileInput.onchange = async (e) => {
-      const selectedDocument = (e.target as HTMLInputElement).files?.[0];
-      if (selectedDocument) {
-        await upload(selectedDocument);
-      }
-    };
-    fileInput.click();
-  }, []);
+  const handleUpload = useCallback(
+    function handleUpload() {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '.pdf';
+      fileInput.onchange = async (e) => {
+        const selectedDocument = (e.target as HTMLInputElement).files?.[0];
+        if (selectedDocument) {
+          await upload(selectedDocument);
+        }
+      };
+      fileInput.click();
+    },
+    [upload],
+  );
 
   return (
     <Button
