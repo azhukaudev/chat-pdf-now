@@ -1,6 +1,7 @@
 import { Bot, FileText, User } from 'lucide-react';
 import Link from 'next/link';
 
+import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -22,7 +23,7 @@ export default function DocumentsLayout({
 }) {
   return (
     <>
-      <header className="shadom-sm flex flex-shrink-0 items-center border-b bg-stone-50 p-4">
+      <header className="flex shrink-0 items-center border-b bg-stone-50 p-4 shadow-sm dark:border-stone-800 dark:bg-stone-900">
         <div className="flex items-center">
           <Link href="/">
             <Bot className="size-8 transition-colors duration-200 hover:text-emerald-600" />
@@ -37,7 +38,8 @@ export default function DocumentsLayout({
           </NavigationMenu>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="cursor-pointer">

@@ -25,7 +25,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
           <body
             className={cn(
-              'overflow-hidden bg-stone-100 font-sans antialiased',
+              'overflow-hidden bg-stone-100 font-sans antialiased dark:bg-stone-950',
               fontSans.variable,
               fontMono.variable,
             )}
