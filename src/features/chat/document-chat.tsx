@@ -18,7 +18,7 @@ import {
   PromptInput,
   PromptInputSubmit,
   PromptInputTextarea,
-  PromptInputToolbar,
+  type PromptInputMessage,
 } from '@/components/ai-elements/prompt-input';
 import { Response } from '@/components/ai-elements/response';
 import { api } from '@/convex/_generated/api';
@@ -41,13 +41,16 @@ export default function DocumentChat(props: DocumentChatProps) {
     optimisticallySendMessage(api.chats.listMessages),
   );
 
-  function handleSubmitMessage(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmitMessage(
+    message: PromptInputMessage,
+    event: React.FormEvent<HTMLFormElement>,
+  ) {
     event.preventDefault();
     void sendMessage({
       threadId: props.document.agentThreadId!,
       documentId: props.document._id,
-      prompt,
-    }).catch(() => setPrompt(prompt));
+      prompt: message.text,
+    }).catch(() => setPrompt(message.text));
     setPrompt('');
   }
 
@@ -74,13 +77,11 @@ export default function DocumentChat(props: DocumentChatProps) {
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
-          <PromptInputToolbar>
-            <PromptInputSubmit
-              className="absolute right-2 bottom-2"
-              disabled={!prompt}
-              status={'ready'}
-            />
-          </PromptInputToolbar>
+          <PromptInputSubmit
+            className="absolute right-2 bottom-2"
+            disabled={!prompt}
+            status={'ready'}
+          />
         </PromptInput>
       </div>
     </div>

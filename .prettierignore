@@ -2,3 +2,5 @@
 next-env.d.ts
 package-lock.yaml
 src/convex/_generated
+src/components/ai-elements
+src/components/ui

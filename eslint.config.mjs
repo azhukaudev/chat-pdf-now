@@ -20,6 +20,8 @@ const eslintConfig = [
       'build/**',
       'next-env.d.ts',
       'src/convex/_generated/**/*',
+      'src/components/ai-elements',
+      'src/components/ui',
     ],
   },
   {
