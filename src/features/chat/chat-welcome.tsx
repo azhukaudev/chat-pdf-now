@@ -1,10 +1,31 @@
 import { FileQuestion, MessageSquare, Search } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
+
+const SUGGESTIONS = [
+  {
+    icon: Search,
+    text: 'What is this document about?',
+  },
+  {
+    icon: FileQuestion,
+    text: 'Summarize the key points',
+  },
+  {
+    icon: MessageSquare,
+    text: 'What are the main conclusions?',
+  },
+];
+
 export interface ChatWelcomeProps {
   documentName: string;
+  onSuggestionClick?: (suggestion: string) => void;
 }
 
-export function ChatWelcome({ documentName }: ChatWelcomeProps) {
+export function ChatWelcome({
+  documentName,
+  onSuggestionClick,
+}: ChatWelcomeProps) {
   return (
     <div className="flex h-full flex-col items-center justify-center p-8 text-center">
       <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
@@ -21,40 +42,42 @@ export function ChatWelcome({ documentName }: ChatWelcomeProps) {
         and get AI-powered answers based on its content.
       </p>
 
-      <div className="space-y-3 text-left">
+      <div className="w-full max-w-sm space-y-3 text-left">
         <h3 className="text-xs font-medium tracking-wider text-stone-400 uppercase dark:text-stone-500">
           Try asking
         </h3>
         <div className="space-y-2">
-          <SuggestionItem
-            icon={<Search className="h-4 w-4" />}
-            text="What is this document about?"
-          />
-          <SuggestionItem
-            icon={<FileQuestion className="h-4 w-4" />}
-            text="Summarize the key points"
-          />
-          <SuggestionItem
-            icon={<MessageSquare className="h-4 w-4" />}
-            text="What are the main conclusions?"
-          />
+          {SUGGESTIONS.map((suggestion) => (
+            <SuggestionButton
+              key={suggestion.text}
+              icon={<suggestion.icon className="h-4 w-4" />}
+              text={suggestion.text}
+              onClick={() => onSuggestionClick?.(suggestion.text)}
+            />
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function SuggestionItem({
+function SuggestionButton({
   icon,
   text,
+  onClick,
 }: {
   icon: React.ReactNode;
   text: string;
+  onClick?: () => void;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300">
+    <Button
+      variant="outline"
+      className="flex h-auto w-full items-center justify-start gap-3 rounded-lg border-stone-200 bg-stone-50 px-4 py-3 text-left text-sm font-normal text-stone-600 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400"
+      onClick={onClick}
+    >
       <span className="text-stone-400 dark:text-stone-500">{icon}</span>
       {text}
-    </div>
+    </Button>
   );
 }
